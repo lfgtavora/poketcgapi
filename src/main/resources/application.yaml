@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: poketcgapi
+  modulith:
+    runtime:
+      verification-enabled: true
+  datasource:
+    url: jdbc:h2:file:./data/poketcg;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
+    username: sa
+    password:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.jdbc.batch_size: 50
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+  h2:
+    console:
+      enabled: true
+poketcg:
+  sync:
+    enabled: true
+    base-url: https://cdn.jsdelivr.net/gh/PokemonTCG/pokemon-tcg-data@master
+    zip-url: https://codeload.github.com/PokemonTCG/pokemon-tcg-data/zip/refs/heads/master
+    fail-on-error: false
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
