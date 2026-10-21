@@ -163,6 +163,10 @@ Erros seguem um formato consistente:
 - [ ] Dockerfile e pipeline de CI (GitHub Actions)
 - [ ] Cache de leitura e métricas via Actuator
 
+## Aviso sobre uso de IA
+
+Ferramentas de IA foram utilizadas neste projeto **somente** para a elaboração da documentação (como este README) e para a escrita das mensagens de commit. Todo o código-fonte foi escrito por mim.
+
 ## Autor
 
 **Luiz Filipe Távora** — [GitHub](https://github.com/lfgtavora)
