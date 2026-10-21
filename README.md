@@ -2,6 +2,7 @@
 
 API REST de catálogo de cartas e coleções (sets) do Pokémon TCG, construída com **Kotlin + Spring Boot 4** em uma arquitetura de **monólito modular** (Spring Modulith). Os dados são sincronizados automaticamente a partir do dataset público [`PokemonTCG/pokemon-tcg-data`](https://github.com/PokemonTCG/pokemon-tcg-data) e servidos localmente, sem depender de API de terceiros em tempo de consulta.
 
+[![CI](https://github.com/lfgtavora/poketcgapi/actions/workflows/ci.yml/badge.svg)](https://github.com/lfgtavora/poketcgapi/actions/workflows/ci.yml)
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.3-7F52FF?logo=kotlin&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1-6DB33F?logo=springboot&logoColor=white)
 ![Java](https://img.shields.io/badge/JVM-17-ED8B00?logo=openjdk&logoColor=white)
@@ -180,7 +181,7 @@ Erros seguem um formato consistente:
 - [ ] Sync agendado (`@Scheduled`) além do startup
 - [ ] Testes de integração dos controllers e Testcontainers
 - [x] Dockerfile e Docker Compose
-- [ ] Pipeline de CI (GitHub Actions)
+- [x] Pipeline de CI (GitHub Actions)
 - [ ] Cache de leitura e métricas via Actuator
 
 ## Aviso sobre uso de IA
