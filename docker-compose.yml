@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - poketcg-data:/app/data
+    restart: unless-stopped
+    environment:
+      POKETCG_SYNC_ENABLED: "true"
+      POKETCG_SYNC_FAIL_ON_ERROR: "false"
+volumes:
+  poketcg-data:

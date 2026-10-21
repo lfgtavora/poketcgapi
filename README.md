@@ -67,14 +67,33 @@ O módulo `sync` depende de `catalog` apenas através de **use cases** públicos
 | Serialização | Jackson Kotlin Module |
 | Testes | JUnit 5, kotlin-test, Spring Boot Test, Spring Modulith Test |
 | Build | Gradle (Kotlin DSL) + version catalog |
+| Containerização | Docker, Docker Compose |
 
 ## Como executar
 
-Pré-requisito: **JDK 17+**.
+### Com Docker (recomendado)
+
+Pré-requisito: **Docker** com Compose.
 
 ```bash
 git clone https://github.com/lfgtavora/poketcgapi.git
 cd poketcgapi
+docker compose up -d
+```
+
+Na primeira subida a aplicação baixa o dataset completo (alguns minutos). O banco fica no volume `poketcg-data`, então as subidas seguintes só atualizam os sets alterados.
+
+```bash
+docker compose logs -f api   # acompanhar o sync
+docker compose down          # parar (mantém o banco)
+docker compose down -v       # parar e apagar o banco
+```
+
+### Sem Docker
+
+Pré-requisito: **JDK 17+**.
+
+```bash
 ./gradlew bootRun
 ```
 
@@ -160,7 +179,8 @@ Erros seguem um formato consistente:
 - [ ] Migrar H2 para PostgreSQL com Flyway
 - [ ] Sync agendado (`@Scheduled`) além do startup
 - [ ] Testes de integração dos controllers e Testcontainers
-- [ ] Dockerfile e pipeline de CI (GitHub Actions)
+- [x] Dockerfile e Docker Compose
+- [ ] Pipeline de CI (GitHub Actions)
 - [ ] Cache de leitura e métricas via Actuator
 
 ## Aviso sobre uso de IA
