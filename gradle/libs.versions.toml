@@ -12,6 +12,9 @@ h2 = { module = "com.h2database:h2" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+postgresql = { module = "org.postgresql:postgresql" }
+flyway-database-postgresql = { module = "org.flywaydb:flyway-database-postgresql" }
+spring-boot-starter-flyway = { module = "org.springframework.boot:spring-boot-starter-flyway" }
 spring-boot-h2console = { module = "org.springframework.boot:spring-boot-h2console" }
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }

@@ -1,13 +1,32 @@
 services:
   api:
+    depends_on:
+      db:
+        condition: service_healthy
     build: .
     ports:
       - "8080:8080"
-    volumes:
-      - poketcg-data:/app/data
     restart: unless-stopped
     environment:
       POKETCG_SYNC_ENABLED: "true"
       POKETCG_SYNC_FAIL_ON_ERROR: "false"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/poketcg
+      SPRING_DATASOURCE_USERNAME: poketcg
+      SPRING_DATASOURCE_PASSWORD: poketcg
+      SPRING_FLYWAY_ENABLED: "true"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "validate"
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: poketcg
+      POSTGRES_USER: poketcg
+      POSTGRES_PASSWORD: poketcg
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U poketcg -d poketcg"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 volumes:
-  poketcg-data:
+  postgres-data:
