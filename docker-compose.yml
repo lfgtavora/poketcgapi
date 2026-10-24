@@ -13,14 +13,14 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/poketcg
       SPRING_DATASOURCE_USERNAME: poketcg
       SPRING_DATASOURCE_PASSWORD: poketcg
-      SPRING_FLYWAY_ENABLED: "true"
-      SPRING_JPA_HIBERNATE_DDL_AUTO: "validate"
   db:
     image: postgres:17
     environment:
       POSTGRES_DB: poketcg
       POSTGRES_USER: poketcg
       POSTGRES_PASSWORD: poketcg
+    ports:
+      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U poketcg -d poketcg"]
       interval: 5s

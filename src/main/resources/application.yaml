@@ -5,22 +5,19 @@ spring:
     runtime:
       verification-enabled: true
   datasource:
-    url: jdbc:h2:file:./data/poketcg;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
-    username: sa
-    password:
+    url: jdbc:postgresql://localhost:5432/poketcg
+    username: poketcg
+    password: poketcg
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate.jdbc.batch_size: 50
       hibernate.order_inserts: true
       hibernate.order_updates: true
-  h2:
-    console:
-      enabled: true
   flyway:
-    enabled: false
+    enabled: true
 poketcg:
   sync:
     enabled: true

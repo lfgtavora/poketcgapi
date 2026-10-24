@@ -28,7 +28,7 @@ class TcgDataSyncService(
     }
 
     private fun coldStart() {
-        log.info("H2 catalog empty — cold-starting from zip archive")
+        log.info("Catalog empty — cold-starting from zip archive")
         val archive = client.downloadArchive()
         log.info("Archive contains {} sets", archive.sets.size)
         archive.sets.forEach { setJson ->

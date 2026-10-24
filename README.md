@@ -53,7 +53,7 @@ O módulo `sync` depende de `catalog` apenas através de **use cases** públicos
    │    sync     │ ─────────────────────► │    catalog    │ ◄─────── │ Cliente │
    └─────────────┘  GetExistingSetRevision└───────┬───────┘          └─────────┘
                                                   ▼
-                                  PostgreSQL (Docker) ou H2 (local)
+                                  PostgreSQL
 ```
 
 ## Stack
@@ -63,7 +63,7 @@ O módulo `sync` depende de `catalog` apenas através de **use cases** públicos
 | Linguagem | Kotlin 2.3 (JVM 17) |
 | Framework | Spring Boot 4.1 (Web MVC, Data JPA, Validation) |
 | Modularização | Spring Modulith 2.1 |
-| Persistência | Hibernate / JPA, PostgreSQL 17 (Docker), H2 (execução local e testes) |
+| Persistência | Hibernate / JPA, PostgreSQL 17 |
 | Migrations | Flyway |
 | Documentação | springdoc-openapi 3.1 (Swagger UI) |
 | Serialização | Jackson Kotlin Module |
@@ -93,19 +93,19 @@ docker compose down -v       # parar e apagar o banco
 
 ### Sem Docker
 
-Pré-requisito: **JDK 17+**.
+Pré-requisitos: **JDK 17+** e Docker (apenas para o Postgres).
 
 ```bash
+docker compose up -d db
 ./gradlew bootRun
 ```
 
-Nesse modo a aplicação usa H2 em arquivo, com o schema criado pelo Hibernate e o Flyway desligado. Na primeira execução ela baixa o dataset completo e popula o banco em `./data/poketcg`. Nas seguintes, só atualiza os sets alterados.
+A aplicação conecta em `localhost:5432` (banco, usuário e senha `poketcg`) e o Flyway cria o schema. Na primeira execução ela baixa o dataset completo; nas seguintes, só atualiza os sets alterados.
 
 | Recurso | URL |
 |---|---|
 | Swagger UI | http://localhost:8080/swagger-ui.html |
 | OpenAPI JSON | http://localhost:8080/v3/api-docs |
-| Console H2 (apenas sem Docker) | http://localhost:8080/h2-console |
 
 ### Configuração
 
@@ -171,7 +171,7 @@ Erros seguem um formato consistente:
 | Spring Modulith em vez de microsserviços | Separação de responsabilidades e fronteiras explícitas sem o custo operacional de sistemas distribuídos; extração futura facilitada. |
 | Dataset local em banco relacional em vez de proxy da API oficial | Latência baixa, sem rate limit e funciona offline após a primeira carga. |
 | Flyway + `ddl-auto: validate` no Docker | O schema evolui só por migrations versionadas (`db/migration`); o Hibernate apenas confere se as entidades batem com ele. |
-| H2 mantido para execução local e testes | Dispensa Docker para rodar `./gradlew bootRun` e `./gradlew test`. |
+| Somente PostgreSQL (sem H2) | Dev, testes (Testcontainers) e produção usam o mesmo banco, sem divergência de dialeto nem de tipos JSON. |
 | Comparação por `updatedAt` do set | Sync incremental barato, sem hash de conteúdo nem diff por carta. |
 | Replace por set em uma transação | Evita estado parcial (set atualizado com cartas antigas). |
 | Domínio desacoplado das entidades JPA | Permite evoluir o schema sem vazar detalhes de persistência para a API. |
@@ -181,7 +181,7 @@ Erros seguem um formato consistente:
 - [ ] Implementar o filtro `q` (sintaxe de consulta) e `orderBy` em `/api/cards` e `/api/sets`
 - [ ] Implementar `select` (projeção de campos na resposta)
 - [x] PostgreSQL com Flyway no Docker Compose
-- [ ] Usar PostgreSQL também nos testes (Testcontainers), eliminando a divergência com o H2
+- [x] PostgreSQL também nos testes (Testcontainers), sem H2
 - [ ] Sync agendado (`@Scheduled`) além do startup
 - [ ] Testes de integração dos controllers e Testcontainers
 - [x] Dockerfile e Docker Compose
